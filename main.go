@@ -100,6 +100,11 @@ func goToTarget(driverType string) {
 		page := initPageWithPageUrl(driver,"https://www.google.com.tw/search?q=胖護士+減肥")
 
 
+		var urls = []string{
+			"http://weiwei0923.pixnet.net/blog/post/299526739-如如",
+			"http://weiwei0923.pixnet.net/blog/post/314385229-最重要的決定",
+			"http://weiwei0923.pixnet.net/blog/post/299525662-規劃婚前減重目標，三個月成功達陣",
+		}
 		if err := page.Navigate("http://weiwei0923.pixnet.net/blog/post/299526739-如如"); err != nil {
 			log.Fatal("Failed to navigate:", err)
 		}
