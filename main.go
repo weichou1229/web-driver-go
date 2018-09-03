@@ -1,16 +1,16 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/sclevine/agouti"
 	"log"
-	"flag"
 )
 
 const (
-	CHROME = "chrome"
+	CHROME          = "chrome"
 	CHROME_HEADLESS = "chrome_headless"
-	PHANTOMJS = "phantomJS"
+	PHANTOMJS       = "phantomJS"
 )
 
 func stopDriver(driver *agouti.WebDriver) {
@@ -19,7 +19,7 @@ func stopDriver(driver *agouti.WebDriver) {
 	}
 }
 
-func initDriver(driverType string ) *agouti.WebDriver {
+func initDriver(driverType string) *agouti.WebDriver {
 	var driver *agouti.WebDriver
 	switch driverType {
 	case CHROME:
@@ -54,7 +54,7 @@ func initPage(driver *agouti.WebDriver) *agouti.Page {
 	return page
 }
 
-func initPageWithPageUrl(driver *agouti.WebDriver , pageUrl string) *agouti.Page {
+func initPageWithPageUrl(driver *agouti.WebDriver, pageUrl string) *agouti.Page {
 	page, err := driver.NewPage()
 	if err != nil {
 		log.Fatal("Failed to open page:", err)
@@ -71,7 +71,7 @@ func main() {
 	var driverType = flag.String("driverType", PHANTOMJS, "the web driver type")
 	flag.Parse()
 
-	fmt.Println("Start ! ",*driverType)
+	fmt.Println("Start ! ", *driverType)
 
 	goToTarget(*driverType)
 }
@@ -81,7 +81,7 @@ func goToPage(driverType string) {
 		var driver = initDriver(driverType)
 
 		pageUrl := "http://weiwei0923.pixnet.net/blog/post/299526739-%E5%A6%82%E5%A6%82"
-		page := initPageWithPageUrl(driver,pageUrl)
+		page := initPageWithPageUrl(driver, pageUrl)
 
 		//title, _ := page.FindByXPath("//*[@id='article-299526739']/h2/a").Text()
 
@@ -97,22 +97,19 @@ func goToPage(driverType string) {
 func goToTarget(driverType string) {
 	for i := 0; i < 1000; i++ {
 		var driver = initDriver(driverType)
-		page := initPageWithPageUrl(driver,"https://www.google.com.tw/search?q=胖護士+減肥")
-
+		page := initPageWithPageUrl(driver, "https://www.google.com.tw/search?q=胖護士+減肥")
 
 		var urls = []string{
 			"http://weiwei0923.pixnet.net/blog/post/299526739-如如",
 			"http://weiwei0923.pixnet.net/blog/post/314385229-最重要的決定",
 			"http://weiwei0923.pixnet.net/blog/post/299525662-規劃婚前減重目標，三個月成功達陣",
 		}
-		if err := page.Navigate("http://weiwei0923.pixnet.net/blog/post/299526739-如如"); err != nil {
-			log.Fatal("Failed to navigate:", err)
-		}
 
-		if err := page.Navigate("http://weiwei0923.pixnet.net/blog/post/314385229-%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E6%B1%BA%E5%AE%9A"); err != nil {
-			log.Fatal("Failed to navigate:", err)
+		for _, url := range urls {
+			if err := page.Navigate(url); err != nil {
+				log.Fatal("Failed to navigate:", err)
+			}
 		}
-
 
 		//var target = page.Find("a[href*='http://weiwei0923.pixnet.net/blog/post/299526739-%E5%A6%82%E5%A6%82']")
 		//
